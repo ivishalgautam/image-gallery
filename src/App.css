@@ -11,14 +11,3 @@
   font-size: 0.75rem;
   font-weight: 500;
 }
-
-.header {
-  margin: 5vh 0 3vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.select__boxes {
-  display: flex;
-  gap: 4px;
-}

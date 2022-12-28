@@ -12,19 +12,18 @@ const Card = ({ images, item, selectedCards, setSelectedCards }) => {
   }
 
   function handleClick(e, id) {
-    if (e.ctrlKey === true) {
-      if (!isSelected) {
-        setSelectedCards([
-          ...new Set(
-            selectedCards.concat(images.filter((item) => item.id === id))
-          ),
-        ]);
-        setIsSelected(true);
-      } else {
-        setSelectedCards(selectedCards.filter((elem) => elem.id !== id));
-        setIsSelected(false);
-      }
+    if (!isSelected) {
+      setSelectedCards([
+        ...new Set(
+          selectedCards.concat(images.filter((item) => item.id === id))
+        ),
+      ]);
+      setIsSelected(true);
+    } else {
+      setSelectedCards(selectedCards.filter((elem) => elem.id !== id));
+      setIsSelected(false);
     }
+
     // console.log(selectedCards);
   }
   return (
