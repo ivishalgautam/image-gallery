@@ -1,0 +1,44 @@
+.card__wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #eceef1;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 2px;
+  cursor: pointer;
+  z-index: 111;
+}
+
+.card__selected {
+  background-color: rgb(244, 247, 255);
+  border: 1px solid rgb(94, 114, 189);
+}
+.img__wrapper {
+  height: 60%;
+}
+.text__content {
+  height: 40%;
+}
+
+.img__wrapper > img {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.text__content {
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px;
+}
+.text__content p {
+  color: #9e9ea7;
+  font-weight: 500;
+}

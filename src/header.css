@@ -1,0 +1,23 @@
+.header {
+  color: rgb(102, 127, 228);
+  border-bottom: 1px solid rgb(237, 237, 237);
+  padding: 2rem 0;
+}
+.header .selectedCards__count {
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.header .action__btns .btn {
+  padding: 0.2rem 0.5rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: rgb(102, 127, 228);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.btn__remove {
+  margin-right: 2rem;
+}
