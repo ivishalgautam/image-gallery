@@ -13,7 +13,7 @@ function App() {
         "https://api.unsplash.com/photos/?client_id=Jf6Aks04fmd9QVn1PrLpU2Ig-NIZPeDKB_20kCOQBHU&orientation=landscape"
       );
       let data = await url.json();
-      // console.log(data);
+      console.log(data);
       setImages(data);
     }
     fetchData();

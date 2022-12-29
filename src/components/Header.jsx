@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import "../header.css";
 
@@ -8,10 +9,25 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
     setSelectedCards([]);
   }
 
-  const imageDownloadURL = selectedCards.map((item) => item.links.download);
+  const imageDownloadURL = selectedCards.map((item) => item.urls.regular);
+
   function handleDownload() {
     if (imageDownloadURL.length) {
-      window.open(imageDownloadURL, "_blank", "noopener,noreferrer");
+      for (var i = 0; i < imageDownloadURL.length; i++) {
+        axios({
+          url: imageDownloadURL[i],
+          method: "GET",
+          responseType: "blob",
+        }).then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "image.jpeg");
+          document.body.appendChild(link);
+          link.click();
+          window.URL.revokeObjectURL(url);
+        });
+      }
     }
   }
 
