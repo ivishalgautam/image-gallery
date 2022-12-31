@@ -19,10 +19,14 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
           method: "GET",
           responseType: "blob",
         }).then((response) => {
+          let imageStr = response.config.url;
+          let imgName = imageStr
+            .slice(imageStr.indexOf("photo"), imageStr.indexOf("="))
+            .substring(0, 15);
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement("a");
           link.href = url;
-          link.setAttribute("download", "image.jpeg");
+          link.setAttribute("download", `${imgName}.jpeg`);
           document.body.appendChild(link);
           link.click();
           window.URL.revokeObjectURL(url);
