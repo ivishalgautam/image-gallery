@@ -28,6 +28,7 @@
   font-weight: 500;
   font-size: 0.9rem;
 }
+
 .header .action__btns .btn {
   padding: 0.2rem 0.5rem;
   border: none;
@@ -38,6 +39,11 @@
   font-size: 0.9rem;
   font-weight: 500;
 }
+.header .action__btns .checkbox__label {
+}
+/* input[type="checkbox"] {
+  visibility: hidden;
+} */
 .btn__remove {
   margin-right: 2rem;
 }

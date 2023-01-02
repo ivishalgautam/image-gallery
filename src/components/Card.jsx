@@ -1,30 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import dateFormat from "dateformat";
 import "../Card.css";
-// import { preview } from "vite";
 
 const Card = ({ images, item, selectedCards, setSelectedCards }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
   function trim(str) {
     return str.length > 16 ? str.substring(0, 16) + "..." : str;
   }
 
-  function handleClick(e, id) {
-    if (!isSelected) {
+  function handleClick(card) {
+    card.isSelected ? (card.isSelected = false) : (card.isSelected = true);
+    if (card.isSelected) {
       setSelectedCards([
-        ...new Set(
-          selectedCards.concat(images.filter((item) => item.id === id))
-        ),
+        ...new Set(images.filter((elem) => elem.isSelected === true)),
       ]);
-      setIsSelected(true);
     } else {
-      setSelectedCards(selectedCards.filter((elem) => elem.id !== id));
-      setIsSelected(false);
+      setSelectedCards(
+        selectedCards.filter((elem) => elem.isSelected === true)
+      );
     }
-
-    // console.log(selectedCards);
   }
   return (
     <>
@@ -33,8 +27,8 @@ const Card = ({ images, item, selectedCards, setSelectedCards }) => {
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
         exit={{ opacity: 0 }}
-        className={`card__wrapper ${isSelected ? "card__selected" : ""}`}
-        onClick={(e) => handleClick(e, item.id)}
+        className={`card__wrapper ${item.isSelected ? "card__selected" : ""}`}
+        onClick={() => handleClick(item)}
       >
         <div className="img__wrapper">
           <img src={item.urls.small_s3} alt={item.alt_description} />

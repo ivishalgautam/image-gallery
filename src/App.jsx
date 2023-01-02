@@ -7,13 +7,16 @@ import Header from "./components/Header";
 function App() {
   const [images, setImages] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
       let url = await fetch(
         "https://api.unsplash.com/photos/?client_id=Jf6Aks04fmd9QVn1PrLpU2Ig-NIZPeDKB_20kCOQBHU&orientation=landscape"
       );
       let data = await url.json();
-      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        Object.assign(data[i], { isSelected: false });
+      }
       setImages(data);
     }
     fetchData();

@@ -9,9 +9,8 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
     setSelectedCards([]);
   }
 
-  const imageDownloadURL = selectedCards.map((item) => item.urls.regular);
-
   function handleDownload() {
+    const imageDownloadURL = selectedCards.map((item) => item.urls.regular);
     if (imageDownloadURL.length) {
       for (var i = 0; i < imageDownloadURL.length; i++) {
         axios({
@@ -35,6 +34,24 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
     }
   }
 
+  const handleSelectAll = (e) => {
+    const { checked } = e.target;
+    let newImages = images.map((elem) => elem);
+    if (checked) {
+      for (let i = 0; i < images.length; i++) {
+        newImages[i].isSelected = true;
+      }
+      setImages(newImages);
+      setSelectedCards(newImages);
+    } else {
+      for (let i = 0; i < images.length; i++) {
+        newImages[i].isSelected = false;
+      }
+      setImages(newImages);
+      setSelectedCards([]);
+    }
+  };
+
   return (
     <>
       <div className="header">
@@ -53,6 +70,17 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
           >
             Download
           </button>
+          <label htmlFor="selectAll" className="checkbox__label">
+            <input
+              type="checkbox"
+              name="selectAll"
+              id="SelectAll"
+              onClick={(e) => {
+                handleSelectAll(e);
+              }}
+            />
+            Select All
+          </label>
         </div>
       </div>
     </>
