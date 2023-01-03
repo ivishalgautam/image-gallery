@@ -21,6 +21,7 @@
     align-items: center;
     justify-content: space-around;
     margin-top: 1rem;
+    flex-wrap: wrap;
   }
 }
 .header .selectedCards__count {
@@ -30,7 +31,7 @@
 }
 
 .header .action__btns .btn {
-  padding: 0.2rem 0.5rem;
+  padding: 0 0.5rem;
   border: none;
   outline: none;
   background-color: transparent;
@@ -40,10 +41,14 @@
   font-weight: 500;
 }
 .header .action__btns .checkbox__label {
+  display: inline-block;
 }
-/* input[type="checkbox"] {
-  visibility: hidden;
-} */
+.header .action__btns .checkbox__label span {
+  margin-left: 2px;
+}
 .btn__remove {
   margin-right: 2rem;
+}
+.checkbox__label {
+  position: relative;
 }

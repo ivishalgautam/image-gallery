@@ -58,18 +58,26 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
         <div className="selectedCards__count">
           unselect {selectedCards.length} images
         </div>
+
         <div className="action__btns">
-          <button className="btn btn__remove" onClick={() => handleRemove()}>
-            Remove
-          </button>
-          <button
-            className="btn btn__download"
-            onClick={() => {
-              handleDownload();
-            }}
-          >
-            Download
-          </button>
+          {selectedCards.length > 0 && (
+            <>
+              <button
+                className="btn btn__remove"
+                onClick={() => handleRemove()}
+              >
+                Remove
+              </button>
+              <button
+                className="btn btn__download"
+                onClick={() => {
+                  handleDownload();
+                }}
+              >
+                Download
+              </button>
+            </>
+          )}
           <label htmlFor="selectAll" className="checkbox__label">
             <input
               type="checkbox"
@@ -79,7 +87,7 @@ const Header = ({ images, setImages, selectedCards, setSelectedCards }) => {
                 handleSelectAll(e);
               }}
             />
-            Select All
+            <span>Select All</span>
           </label>
         </div>
       </div>
