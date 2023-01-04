@@ -1,48 +1,43 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
+import data from "./data.js";
+import Dexie from "dexie";
+import { useLiveQuery } from "dexie-react-hooks";
+
+const db = new Dexie("imagesDB");
+
+db.version(1).stores({
+  image: "++, url, caption, date, isSelected",
+});
+
+const { image } = db;
 
 function App() {
-  const [images, setImages] = useState([]);
-  const [selectedCards, setSelectedCards] = useState([]);
+  const allImages = useLiveQuery(() => image.toArray());
 
-  useEffect(() => {
-    async function fetchData() {
-      let url = await fetch(
-        "https://api.unsplash.com/photos/?client_id=Jf6Aks04fmd9QVn1PrLpU2Ig-NIZPeDKB_20kCOQBHU&orientation=landscape"
-      );
-      let data = await url.json();
-      for (let i = 0; i < data.length; i++) {
-        Object.assign(data[i], { isSelected: false });
-      }
-      setImages(data);
-    }
-    fetchData();
-  }, []);
+  if (allImages?.length <= 0) {
+    image.bulkAdd(data).then(() => {
+      console.log("done adding");
+    });
+  }
 
   return (
     <div className="App">
       <h1 className="top__heading" style={{ textAlign: "center" }}>
         Skill images
       </h1>
-      <Header
-        selectedCards={selectedCards}
-        setSelectedCards={setSelectedCards}
-        images={images}
-        setImages={setImages}
-      />
+      <Header image={image} allImages={allImages} />
       <motion.div layout className="cards__container">
         <AnimatePresence>
-          {images.map((item) => {
+          {allImages?.map((item) => {
             return (
               <Card
                 key={item.id}
                 item={item}
-                images={images}
-                selectedCards={selectedCards}
-                setSelectedCards={setSelectedCards}
+                image={image}
+                allImages={allImages}
               />
             );
           })}

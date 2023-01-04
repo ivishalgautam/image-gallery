@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import dateFormat from "dateformat";
 import "../Card.css";
 
-const Card = ({ images, item, selectedCards, setSelectedCards }) => {
-  function trim(str) {
-    return str.length > 16 ? str.substring(0, 16) + "..." : str;
-  }
-
-  function handleClick(card) {
-    card.isSelected ? (card.isSelected = false) : (card.isSelected = true);
-    if (card.isSelected) {
-      setSelectedCards([
-        ...new Set(images.filter((elem) => elem.isSelected === true)),
-      ]);
-    } else {
-      setSelectedCards(
-        selectedCards.filter((elem) => elem.isSelected === true)
-      );
+const Card = ({ item, image }) => {
+  function trimStr(str) {
+    if (str.length > 15) {
+      return str.substring(0, 15) + "...";
     }
+    return str;
+  }
+  // console.log(images);
+
+  async function handleClick(e, item) {
+    const { id, isSelected } = item;
+    await image.update(id, { isSelected: !isSelected });
   }
   return (
     <>
@@ -27,21 +23,17 @@ const Card = ({ images, item, selectedCards, setSelectedCards }) => {
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
         exit={{ opacity: 0 }}
-        className={`card__wrapper ${item.isSelected ? "card__selected" : ""}`}
-        onClick={() => handleClick(item)}
+        className={`card__wrapper ${item?.isSelected ? "card__selected" : ""}`}
+        onClick={(e) => handleClick(e, item)}
       >
         <div className="img__wrapper">
-          <img src={item.urls.small_s3} alt={item.alt_description} />
+          <img src={item?.url} alt={item?.caption} />
         </div>
         <div className="text__content">
           <h1 style={{ fontSize: "0.7rem", textTransform: "capitalize" }}>
-            {item.alt_description === null
-              ? "name not found !"
-              : trim(item.alt_description)}
+            {trimStr(item?.caption)}
           </h1>
-          <p style={{ fontSize: "0.7rem" }}>
-            {dateFormat(item.created_at, "mmm d")}
-          </p>
+          <p style={{ fontSize: "0.7rem" }}>{item?.date}</p>
         </div>
       </motion.div>
     </>

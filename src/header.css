@@ -52,3 +52,6 @@
 .checkbox__label {
   position: relative;
 }
+#upload__myImage {
+  display: none;
+}
