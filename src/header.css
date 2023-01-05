@@ -23,6 +23,9 @@
     margin-top: 1rem;
     flex-wrap: wrap;
   }
+  .upload__conatainer {
+    margin-top: 1rem;
+  }
 }
 .header .selectedCards__count {
   text-transform: capitalize;
@@ -44,7 +47,10 @@
   display: inline-block;
 }
 .header .action__btns .checkbox__label span {
-  margin-left: 2px;
+  vertical-align: bottom;
+  margin: 0 1.3rem 0 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 .btn__remove {
   margin-right: 2rem;
@@ -52,6 +58,14 @@
 .checkbox__label {
   position: relative;
 }
+.upload__conatainer {
+  display: flex;
+  justify-content: center;
+}
 #upload__myImage {
   display: none;
+}
+.upload__icon {
+  margin-right: 8px;
+  font-size: 0.8rem;
 }

@@ -6,17 +6,15 @@ import data from "./data.js";
 import Dexie from "dexie";
 import { useLiveQuery } from "dexie-react-hooks";
 
+/* Creating a database called imagesDB and creating a table called image. */
 const db = new Dexie("imagesDB");
-
 db.version(1).stores({
   image: "++, url, caption, date, isSelected",
 });
-
 const { image } = db;
 
 function App() {
   const allImages = useLiveQuery(() => image.toArray());
-
   if (allImages?.length <= 0) {
     image.bulkAdd(data).then(() => {
       console.log("done adding");

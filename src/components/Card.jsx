@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import dateFormat from "dateformat";
 import "../Card.css";
 
 const Card = ({ item, image }) => {
@@ -10,9 +9,12 @@ const Card = ({ item, image }) => {
     }
     return str;
   }
-  // console.log(images);
 
-  async function handleClick(e, item) {
+  async function handleClick(item) {
+    /**
+     * When the user clicks on an image, the image's isSelected property is toggled to the opposite of
+     * what it was before.
+     */
     const { id, isSelected } = item;
     await image.update(id, { isSelected: !isSelected });
   }
@@ -24,7 +26,7 @@ const Card = ({ item, image }) => {
         initial={{ opacity: 0 }}
         exit={{ opacity: 0 }}
         className={`card__wrapper ${item?.isSelected ? "card__selected" : ""}`}
-        onClick={(e) => handleClick(e, item)}
+        onClick={() => handleClick(item)}
       >
         <div className="img__wrapper">
           <img src={item?.url} alt={item?.caption} />

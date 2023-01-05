@@ -1,14 +1,17 @@
 import axios from "axios";
 import React from "react";
+import dateFormat from "dateformat";
+
 import "../header.css";
 
-const Header = ({ allImages, images, image }) => {
-  // const filterValues = selectedCards.map((item) => item.id);
+const Header = ({ allImages, image }) => {
   const selectedCardsId = allImages
     ?.filter((item) => item.isSelected == true)
     .map((item) => item.id);
-  // console.log(selectedCards);
   function handleRemove() {
+    /**
+     * It takes the selected cards and deletes them from the database.
+     */
     image
       .bulkDelete(selectedCardsId)
       .then((data) => console.log(data))
@@ -16,8 +19,13 @@ const Header = ({ allImages, images, image }) => {
   }
 
   function handleDownload() {
-    const imageDownloadUrl = selectedCards.map((item) => item.url);
-    console.log(imageDownloadUrl);
+    /**
+     * It takes the image url from the state, filters out the ones that are selected, and then downloads
+     * them.
+     */
+    let imageDownloadUrl = allImages
+      ?.filter((item) => item.isSelected === true)
+      .map((item) => item.url);
     if (imageDownloadUrl.length) {
       for (var i = 0; i < imageDownloadUrl.length; i++) {
         axios({
@@ -42,22 +50,43 @@ const Header = ({ allImages, images, image }) => {
   }
 
   const handleSelectAll = async (e) => {
+    /**
+     * If the checkbox is checked, then update all the images to have isSelected set to true, otherwise set
+     * it to false.
+     */
+    const selectedAllCardsIds = allImages?.map((item) => item.id);
     const { checked } = e.target;
-    const { id, isSelected } = item;
-    await image.update(id, { isSelected: !isSelected });
+    if (checked) {
+      for (let i = 0; i < selectedAllCardsIds.length; i++) {
+        await image.update(selectedAllCardsIds[i], { isSelected: true });
+      }
+    } else {
+      for (let i = 0; i < selectedAllCardsIds.length; i++) {
+        await image.update(selectedAllCardsIds[i], { isSelected: false });
+      }
+    }
   };
 
   const handleImage = async (e) => {
+    /**
+     * When the user selects an image, get the base64 representation of the image and add it to the image
+     * array.
+     */
     let file = e.target.files[0];
     // console.log(file);
     await image.add({
       url: await getBase64(file),
-      date: new Date().toLocaleDateString(),
+      date: dateFormat(new Date().toLocaleDateString(), "mmm d"),
       caption: file.name,
       isSelected: false,
     });
   };
+
   const getBase64 = (file) => {
+    /**
+     * It takes a file and returns a promise that resolves to the base64 representation of the file (image in our case).
+     * @returns A promise that resolves to a base64 encoded string.
+     */
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -75,17 +104,6 @@ const Header = ({ allImages, images, image }) => {
 
         {selectedCardsId?.length > 0 ? (
           <div className="action__btns">
-            <button className="btn btn__remove" onClick={() => handleRemove()}>
-              Remove
-            </button>
-            <button
-              className="btn btn__download"
-              onClick={() => {
-                handleDownload();
-              }}
-            >
-              Download
-            </button>
             <label htmlFor="selectAll" className="checkbox__label">
               <input
                 type="checkbox"
@@ -97,19 +115,37 @@ const Header = ({ allImages, images, image }) => {
               />
               <span>Select All</span>
             </label>
+            <button className="btn btn__remove" onClick={() => handleRemove()}>
+              Remove
+            </button>
+            <button
+              className="btn btn__download"
+              onClick={() => {
+                handleDownload();
+              }}
+            >
+              Download
+            </button>
           </div>
         ) : (
-          <label htmlFor="upload__myImage">
-            <input
-              type="file"
-              name="myImage"
-              id="upload__myImage"
-              onChange={(e) => {
-                handleImage(e);
-              }}
-            />
-            Upload Image
-          </label>
+          <div className="upload__conatainer">
+            <label htmlFor="upload__myImage">
+              <input
+                type="file"
+                name="myImage"
+                id="upload__myImage"
+                onChange={(e) => {
+                  handleImage(e);
+                }}
+              />
+              <p>
+                <span className="upload__icon">
+                  <i className="fa-solid fa-cloud-arrow-up"></i>
+                </span>
+                Upload Image
+              </p>
+            </label>
+          </div>
         )}
       </div>
     </>
