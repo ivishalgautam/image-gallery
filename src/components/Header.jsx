@@ -16,6 +16,7 @@ const Header = ({ allImages, image }) => {
       .bulkDelete(selectedCardsId)
       .then((data) => console.log(data))
       .catch((err) => console.log(err.message));
+    document.querySelector("#SelectAll").checked = false;
   }
 
   function handleDownload() {
