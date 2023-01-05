@@ -73,8 +73,9 @@ const Header = ({ allImages, image }) => {
      * array.
      */
     let file = e.target.files[0];
-    // console.log(file);
+    console.log(file);
     await image.add({
+      id: allImages?.length + 1,
       url: await getBase64(file),
       date: dateFormat(new Date().toLocaleDateString(), "mmm d"),
       caption: file.name,
